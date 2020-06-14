@@ -10,7 +10,11 @@ public class Playfield
     public static int HEIGHT = 13;
     /** Elements on board. */
     public static Element[,] ELEMENTS = new Element[WIDTH,HEIGHT];
-
+    /** Number of free spaces. */
+    public static int spaces = 0;
+    /** The winning screen, for reference purposes. */
+    public static Win winScreen;
+    
     /** Uncovers all mines, run during the game over sequence. */
     public static void uncoverMines()
     {
@@ -18,6 +22,7 @@ public class Playfield
         {
             if (elem.mine)
             {
+                elem.revealed = true;
                 elem.loadTexture(0);
             }
         }
@@ -35,14 +40,14 @@ public class Playfield
     public static int adjacentMines(int x, int y) {
         int count = 0;
 
-        if (mineAt(x,   y+1)) ++count; // top
-        if (mineAt(x+1, y+1)) ++count; // top-right
-        if (mineAt(x+1, y  )) ++count; // right
-        if (mineAt(x+1, y-1)) ++count; // bottom-right
-        if (mineAt(x,   y-1)) ++count; // bottom
-        if (mineAt(x-1, y-1)) ++count; // bottom-left
-        if (mineAt(x-1, y  )) ++count; // left
-        if (mineAt(x-1, y+1)) ++count; // top-left
+        if (mineAt(x,   y+1)) ++count;     // top
+        if (mineAt(x+1, y+1)) ++count;   // top-right
+        if (mineAt(x+1, y  )) ++count;     // right
+        if (mineAt(x+1, y-1)) ++count;   // bottom-right
+        if (mineAt(x,   y-1)) ++count;     // bottom
+        if (mineAt(x-1, y-1)) ++count;   // bottom-left
+        if (mineAt(x-1, y  )) ++count;     // left
+        if (mineAt(x-1, y+1)) ++count;   // top-left
         
         return count;
     }
@@ -58,13 +63,15 @@ public class Playfield
             }
             
             // uncover element
+            ELEMENTS[x, y].revealed = true;
+            ELEMENTS[x, y].flagged = false;
             ELEMENTS[x, y].loadTexture(adjacentMines(x, y));
+            spaces -= 1;
 
             // close to a mine? then no more work needed here
             if (adjacentMines(x, y) > 0)
                 return;
-
-
+            
             visited[x, y] = true;
 
             uncover(x - 1, y, visited);
@@ -76,11 +83,7 @@ public class Playfield
     
     /** Returns whether or not the game is finished. */
     public static bool isFinished() {
-        // Try to find a covered element that is no mine
-        foreach (Element elem in elements)
-            if (elem.isCovered() && !elem.mine)
-                return false;
-        // There are none => all are mines => game won.
-        return true;
+        // No non-mine spaces left to click => win
+        return spaces == 0;
     }
 }
