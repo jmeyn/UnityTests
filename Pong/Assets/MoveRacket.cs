@@ -9,8 +9,11 @@ public class MoveRacket : MonoBehaviour {
     /** What input axis we are reading from. */
     public string _axis = "Vertical";
 
+    public float view = 0;
+
     void FixedUpdate() {
         float v = Input.GetAxisRaw(_axis);
+        view = v;
         GetComponent<Rigidbody2D>().velocity = new Vector2(0, v) * _speed;
     }
 }
