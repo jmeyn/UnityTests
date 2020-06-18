@@ -18,3 +18,17 @@ I improved the game's mechanics by putting in a flagging system and a victory sc
 
 #### What I Learned
 * This project taught me how to manage a lot of GameObjects, implement changing sprite textures, and optimize game conditions.
+
+## Towerdefense
+Another project made by following directions provided by https://noobtuts.com.
+I changed the map layout slightly to see how the navigation mesh would react, and made my own prefab for the monster.
+
+### What I Learned
+* This was my first project in Unity3D, so I learned to adjust to the new camera angle, lighting, and making more complicated assets.
+
+## Tic Tac Toe
+A project I made all by myself.
+Simple version of tic tac toe, X goes first and the winning line(s) will be shown.
+
+### What I Learned
+* This project helped reinforce the things I learned in the previous projects, making me think for myself about how each component interacted with each other.
